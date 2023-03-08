@@ -1,7 +1,0 @@
-[package]
-name = "client"
-version = "0.0.0"
-edition = "2021"
-
-[dependencies]
-reqwest = { workspace = true }
