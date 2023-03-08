@@ -8,3 +8,5 @@ license = "MIT"
 readme = "README.md"
 
 [dependencies]
+config ={ path = "../config", version = "0.0.0"}
+client ={ path = "../client", version = "0.0.0"}
