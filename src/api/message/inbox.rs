@@ -1,4 +1,4 @@
-use crate::path::AsPath;
+use crate::path::AsUrlPath;
 use serde::{Deserialize, Serialize};
 use serde_qs as qs;
 
@@ -29,19 +29,23 @@ pub struct FetchInboxRequest {
     query_params: Option<FetchInboxRequestQueryParams>,
 }
 
-impl AsPath for FetchInboxRequest {
-    fn as_path(self) -> String {
-        let FetchInboxRequest {
+impl AsUrlPath for FetchInboxRequest {
+    fn as_url_path(self) -> String {
+        let Self {
             domain,
             inbox,
             query_params,
         } = self;
 
         if let Some(q) = query_params {
-            let qsp = qs::to_string(&q).expect("Failed to serialize query string params");
+            let qsp = qs::to_string(&q).expect(
+                "Failed to serialize query string params",
+            );
             format!("/api/v2/domains/{domain}/inboxes/{inbox}?{qsp}")
         } else {
-            format!("/api/v2/domains/{domain}/inboxes/{inbox}")
+            format!(
+                "/api/v2/domains/{domain}/inboxes/{inbox}"
+            )
         }
     }
 }

@@ -1,5 +1,4 @@
-pub(super) trait AsPath {
+pub(super) trait AsUrlPath {
     #[allow(clippy::wrong_self_convention)]
-    fn as_path(self) -> String;
- }
- 
+    fn as_url_path(self) -> String;
+}
