@@ -46,7 +46,7 @@ impl MailinatorClient {
     where
         T: DeserializeOwned + Sync + Send,
     {
-        HttpRequest::get(&self, path)
+        HttpRequest::get(self, path)
             .and_then(HttpRequest::send)
             .and_then(HttpRequest::parse_json)
             .await
@@ -58,7 +58,7 @@ impl MailinatorClient {
         Data: Into<Body>,
         T: DeserializeOwned + Sync + Send,
     {
-        HttpRequest::post(&self, path, data)
+        HttpRequest::post(self, path, data)
             .and_then(HttpRequest::send)
             .and_then(HttpRequest::parse_json)
             .await
@@ -69,7 +69,7 @@ impl MailinatorClient {
         Form: Serialize + Sync + Send,
         T: DeserializeOwned + Sync + Send,
     {
-        HttpRequest::post_form(&self, path, form)
+        HttpRequest::post_form(self, path, form)
             .and_then(HttpRequest::send)
             .and_then(HttpRequest::parse_json)
             .await
