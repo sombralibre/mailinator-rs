@@ -1,1 +1,3 @@
-# Mailinator api# mailinator-rs
+# mailinator-rs
+
+## Non official wrapper for api mailinator
