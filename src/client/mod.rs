@@ -59,6 +59,19 @@ impl MailinatorClient {
             .await
     }
 
+    pub(crate) async fn put<T>(
+        &self,
+        path: String,
+    ) -> Result<T, Report>
+    where
+        T: DeserializeOwned + Sync + Send,
+    {
+        HttpRequest::put(self, path)
+            .and_then(HttpRequest::send)
+            .and_then(HttpRequest::parse_json)
+            .await
+    }
+
     pub(crate) async fn post<Data, T>(
         &self,
         path: String,
@@ -70,21 +83,6 @@ impl MailinatorClient {
         T: DeserializeOwned + Sync + Send,
     {
         HttpRequest::post(self, path, data)
-            .and_then(HttpRequest::send)
-            .and_then(HttpRequest::parse_json)
-            .await
-    }
-
-    pub(crate) async fn post_form<Form, T>(
-        &self,
-        path: String,
-        form: Form,
-    ) -> Result<T, Report>
-    where
-        Form: Serialize + Sync + Send,
-        T: DeserializeOwned + Sync + Send,
-    {
-        HttpRequest::post_form(self, path, form)
             .and_then(HttpRequest::send)
             .and_then(HttpRequest::parse_json)
             .await
@@ -137,6 +135,20 @@ impl HttpRequest {
             .headers(_headers.to_owned()))
     }
 
+    async fn put(
+        inner: &MailinatorClient,
+        path: String,
+    ) -> Result<RequestBuilder, Report> {
+        let MailinatorClient {
+            _client,
+            _headers,
+            _api_url,
+        } = inner;
+        Ok(_client
+            .put(format!("{_api_url}{path}"))
+            .headers(_headers.to_owned()))
+    }
+
     async fn post<Data>(
         inner: &MailinatorClient,
         path: String,
@@ -154,25 +166,6 @@ impl HttpRequest {
         Ok(_client
             .post(format!("{_api_url}{path}"))
             .body(data)
-            .headers(_headers.to_owned()))
-    }
-
-    async fn post_form<Form>(
-        inner: &MailinatorClient,
-        path: String,
-        form: Form,
-    ) -> Result<RequestBuilder, Report>
-    where
-        Form: Serialize + Sync + Send,
-    {
-        let MailinatorClient {
-            _client,
-            _headers,
-            _api_url,
-        } = inner;
-        Ok(_client
-            .post(format!("{_api_url}{path}"))
-            .form(&form)
             .headers(_headers.to_owned()))
     }
 

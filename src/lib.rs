@@ -10,8 +10,8 @@ pub mod prelude {
     pub use super::{
         api::{
             domains::{
-                Domain, DomainApi, DomainRequestBuilder,
-                DomainResponse, DomainResponseStatus,
+                Domain, DomainRequestBuilder,
+                DomainResponse, DomainsApi,
             },
             message::{
                 attachment::{
@@ -40,7 +40,14 @@ pub mod prelude {
                 NewEmailMessage, NewEmailMessageBuilder,
                 Part, PartBuilder,
             },
+            rules::{
+                CreateRuleRequestBuilder,
+                ListRulesRequestBuilder, ListRulesResponse,
+                RuleBuilder, RuleRequestBuilder, RulesApi,
+                WebhookActionBuilder,
+            },
             stats::*,
+            ResponseStatus,
         },
         client::MailinatorClient,
     };

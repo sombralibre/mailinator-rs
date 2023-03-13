@@ -4,6 +4,7 @@ use crate::path::AsUrlPath;
 use async_trait::async_trait;
 use eyre::Report;
 use serde::Deserialize;
+use crate::api::ResponseStatus;
 
 #[derive(Debug, Deserialize)]
 pub struct Domain {
@@ -18,11 +19,6 @@ pub struct Domain {
 #[derive(Debug, Deserialize)]
 pub struct DomainResponse {
     pub domains: Vec<Domain>,
-}
-
-#[derive(Debug, Deserialize)]
-pub struct DomainResponseStatus {
-    pub status: String,
 }
 
 #[derive(Debug, Builder)]
@@ -40,7 +36,7 @@ impl AsUrlPath for DomainRequest {
 }
 
 #[async_trait]
-pub trait DomainApi {
+pub trait DomainsApi {
     async fn get_all_domains(
         &self,
     ) -> Result<DomainResponse, Report>;
@@ -51,15 +47,15 @@ pub trait DomainApi {
     async fn create_private_domain(
         &self,
         request: DomainRequest,
-    ) -> Result<DomainResponseStatus, Report>;
+    ) -> Result<ResponseStatus, Report>;
     async fn delete_private_domain(
         &self,
         request: DomainRequest,
-    ) -> Result<DomainResponseStatus, Report>;
+    ) -> Result<ResponseStatus, Report>;
 }
 
 #[async_trait]
-impl DomainApi for MailinatorClient {
+impl DomainsApi for MailinatorClient {
     async fn get_all_domains(
         &self,
     ) -> Result<DomainResponse, Report> {
@@ -75,13 +71,13 @@ impl DomainApi for MailinatorClient {
     async fn create_private_domain(
         &self,
         request: DomainRequest,
-    ) -> Result<DomainResponseStatus, Report> {
+    ) -> Result<ResponseStatus, Report> {
         self.post(request.as_url_path(), vec![]).await
     }
     async fn delete_private_domain(
         &self,
         request: DomainRequest,
-    ) -> Result<DomainResponseStatus, Report> {
+    ) -> Result<ResponseStatus, Report> {
         self.delete(request.as_url_path()).await
     }
 }
