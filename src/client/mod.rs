@@ -99,7 +99,7 @@ impl MailinatorClient {
         Jdata: Serialize + Sync + Send,
         T: DeserializeOwned + Sync + Send,
     {
-        HttpRequest::post_form(self, path, jdata)
+        HttpRequest::post_json(self, path, jdata)
             .and_then(HttpRequest::send)
             .and_then(HttpRequest::parse_json)
             .await

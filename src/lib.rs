@@ -9,6 +9,10 @@ mod path;
 pub mod prelude {
     pub use super::{
         api::{
+            domains::{
+                Domain, DomainApi, DomainRequestBuilder,
+                DomainResponse, DomainResponseStatus,
+            },
             message::{
                 attachment::{
                     Attachment, AttachmentLookupField,

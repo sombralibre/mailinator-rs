@@ -6,13 +6,13 @@ use chrono::{DateTime, Utc};
 
 #[async_trait]
 pub trait StatsApi {
-    async fn get_all_domains(&self) -> Result<StatsResponse, Report>;
+    async fn get_usage_statistica(&self) -> Result<UsageStatistica, Report>;
 }
 
 
 #[async_trait]
 impl StatsApi for MailinatorClient {
-    async fn get_all_domains(&self) -> Result<StatsResponse, Report>{
+    async fn get_usage_statistica(&self) -> Result<UsageStatistica, Report>{
         let url_path = "/api/v2/team/stats";
         self.get(url_path.to_owned()).await
     }
@@ -41,6 +41,6 @@ pub struct Stats {
 
 
 #[derive(Debug, Deserialize)]
-pub struct StatsResponse{
+pub struct UsageStatistica{
     pub stats: Vec<Stats>
 }
