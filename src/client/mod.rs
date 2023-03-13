@@ -90,6 +90,21 @@ impl MailinatorClient {
             .await
     }
 
+    pub(crate) async fn post_json<Jdata, T>(
+        &self,
+        path: String,
+        jdata: Jdata,
+    ) -> Result<T, Report>
+    where
+        Jdata: Serialize + Sync + Send,
+        T: DeserializeOwned + Sync + Send,
+    {
+        HttpRequest::post_form(self, path, jdata)
+            .and_then(HttpRequest::send)
+            .and_then(HttpRequest::parse_json)
+            .await
+    }
+
     pub(crate) async fn delete<T>(
         &self,
         path: String,
@@ -158,6 +173,25 @@ impl HttpRequest {
         Ok(_client
             .post(format!("{_api_url}{path}"))
             .form(&form)
+            .headers(_headers.to_owned()))
+    }
+
+    async fn post_json<Jdata>(
+        inner: &MailinatorClient,
+        path: String,
+        jdata: Jdata,
+    ) -> Result<RequestBuilder, Report>
+    where
+        Jdata: Serialize + Sync + Send,
+    {
+        let MailinatorClient {
+            _client,
+            _headers,
+            _api_url,
+        } = inner;
+        Ok(_client
+            .post(format!("{_api_url}{path}"))
+            .json(&jdata)
             .headers(_headers.to_owned()))
     }
 
