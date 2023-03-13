@@ -8,31 +8,35 @@ mod path;
 
 pub mod prelude {
     pub use super::{
-        api::message::{
-            attachment::{
-                Attachment, AttachmentLookupField,
-                FetchAttachmentRequestBuilder,
-                FetchListOfAttachmentRequestBuilder,
-                FetchListOfAttachmentResponse,
+        api::{
+            message::{
+                attachment::{
+                    Attachment, AttachmentLookupField,
+                    FetchAttachmentRequestBuilder,
+                    FetchListOfAttachmentRequestBuilder,
+                    FetchListOfAttachmentResponse,
+                },
+                inbox::{
+                    FetchInboxRequestBuilder,
+                    FetchInboxRequestQueryParamsBuilder,
+                    FetchInboxResponse, Msg,
+                },
+                link::{
+                    FetchLinkRequestBuilder,
+                    FetchLinkResponse,
+                },
+                DeleteAllDomainMessageRequestBuilder,
+                DeleteAllInboxMessageRequestBuilder,
+                DeleteMessageRequestBuilder,
+                DeleteMessageResponse, EmailMessage,
+                FetchMessageRequestBuilder,
+                FetchSmsMessageRequestBuilder,
+                InjectMessageRequestBuilder,
+                InjectMessageResponse, MessageApi,
+                NewEmailMessage, NewEmailMessageBuilder,
+                Part, PartBuilder,
             },
-            inbox::{
-                FetchInboxRequestBuilder,
-                FetchInboxRequestQueryParamsBuilder,
-                FetchInboxResponse, Msg,
-            },
-            link::{
-                FetchLinkRequestBuilder, FetchLinkResponse,
-            },
-            DeleteAllDomainMessageRequestBuilder,
-            DeleteAllInboxMessageRequestBuilder,
-            DeleteMessageRequestBuilder,
-            DeleteMessageResponse, EmailMessage,
-            FetchMessageRequestBuilder,
-            FetchSmsMessageRequestBuilder,
-            InjectMessageRequestBuilder,
-            InjectMessageResponse, MessageApi,
-            NewEmailMessage, NewEmailMessageBuilder, Part,
-            PartBuilder,
+            stats::*,
         },
         client::MailinatorClient,
     };
