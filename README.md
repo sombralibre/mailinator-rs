@@ -102,7 +102,7 @@ async fn main() {
 }
 ```
 
-* ### Fetch Sms
+* #### Fetch Sms
 ```rust
 use mailinator_rs::prelude::{FetchSmsMessageRequestBuilder, MailinatorClient, MessageApi};
 
@@ -127,7 +127,7 @@ async fn main() {
 }
 
 ```
-* ### List Attachments
+* #### List Attachments
 ```rust
 use mailinator_rs::prelude::{FetchListOfAttachmentRequestBuilder, MailinatorClient, MessageApi};
 
@@ -153,7 +153,7 @@ async fn main() {
     }
 }
 ```
-* ### Fetch Links 
+* #### Fetch Links 
 
 ```rust
 use mailinator_rs::prelude::{FetchLinkRequestBuilder, MailinatorClient, MessageApi};
@@ -181,7 +181,7 @@ async fn main() {
 }
 
 ```
-* ### Fetch Attachment
+* #### Fetch Attachment
 ```rust
 use mailinator_rs::prelude::{
     AttachmentLookupField, FetchAttachmentRequestBuilder, MailinatorClient, MessageApi,
@@ -211,7 +211,7 @@ async fn main() {
     }
 }
 ```
-* ### Delete All Domain Messages
+* #### Delete All Domain Messages
 ```rust
 use mailinator_rs::prelude::{DeleteAllDomainMessageRequestBuilder, MailinatorClient, MessageApi};
 
@@ -233,7 +233,7 @@ async fn main() {
     }
 }
 ```
-* ### Delete Message
+* #### Delete Message
 ```rust
 use mailinator_rs::prelude::{DeleteMessageRequestBuilder, MailinatorClient, MessageApi};
 
@@ -259,7 +259,7 @@ async fn main() {
     }
 }
 ```
-* ### Inject Message
+* #### Inject Message
 ```rust
 use mailinator_rs::prelude::{
     InjectMessageRequestBuilder, MailinatorClient, MessageApi, NewEmailMessageBuilder,
