@@ -23,7 +23,7 @@ pub mod prelude {
                 inbox::{
                     FetchInboxRequestBuilder,
                     FetchInboxRequestQueryParamsBuilder,
-                    FetchInboxResponse, Msg,
+                    FetchInboxResponse, Msg, Sorting
                 },
                 link::{
                     FetchLinkRequestBuilder,

@@ -135,13 +135,7 @@ pub struct NewEmailMessage {
     pub parts: Vec<Part>,
     pub from: String,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub to: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub id: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub time: Option<u64>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub seconds_ago: Option<u64>,
+    pub text: Option<String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
