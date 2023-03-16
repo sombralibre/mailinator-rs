@@ -1,11 +1,16 @@
 [package]
 name = "mailinator-rs"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Alejandro Llanes <sombra.libre@gmail.com>"]
 edition = "2021"
 description = "Api wrapper for Mailinator."
 license = "MIT"
 readme = "README.md"
+homepage = "https://github.com/sombralibre/mailinator-rs"
+repository = "https://github.com/sombralibre/mailinator-rs"
+keywords = ["email", "api"]
+categories = ["email"]
+documentation = "https://docs.rs/mailinator-rs"
 
 [profile.dev]
 opt-level = 0

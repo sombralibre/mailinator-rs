@@ -1,10 +1,10 @@
 use crate::api::rules::Rule;
-use crate::client::MailinatorClient;
-use crate::path::AsUrlPath;
+use crate::api::ResponseStatus;
+use crate::client::Mailinator;
+use crate::path::AsUrl;
 use async_trait::async_trait;
 use eyre::Report;
 use serde::Deserialize;
-use crate::api::ResponseStatus;
 
 #[derive(Debug, Deserialize)]
 pub struct Domain {
@@ -26,7 +26,7 @@ pub struct DomainRequest {
     domain: String,
 }
 
-impl AsUrlPath for DomainRequest {
+impl AsUrl for DomainRequest {
     fn as_url_path(self) -> String {
         format!(
             "/api/v2/domains/{domain_id}",
@@ -36,7 +36,7 @@ impl AsUrlPath for DomainRequest {
 }
 
 #[async_trait]
-pub trait DomainsApi {
+pub trait ApiDomainEndpoints {
     async fn get_all_domains(
         &self,
     ) -> Result<DomainResponse, Report>;
@@ -55,7 +55,7 @@ pub trait DomainsApi {
 }
 
 #[async_trait]
-impl DomainsApi for MailinatorClient {
+impl ApiDomainEndpoints for Mailinator {
     async fn get_all_domains(
         &self,
     ) -> Result<DomainResponse, Report> {

@@ -1,5 +1,5 @@
-use crate::client::MailinatorClient;
-use crate::path::AsUrlPath;
+use crate::client::Mailinator;
+use crate::path::AsUrl;
 use async_trait::async_trait;
 use eyre::Report;
 use serde::{Deserialize, Serialize};
@@ -75,7 +75,7 @@ pub struct CreateRuleRequest {
     domain: String,
 }
 
-impl AsUrlPath for CreateRuleRequest {
+impl AsUrl for CreateRuleRequest {
     fn as_url_path(self) -> String {
         format!(
             "/api/v2/domains/{domain_id}/rules/",
@@ -90,7 +90,7 @@ pub struct EnableRuleRequest {
     rule_id: String,
 }
 
-impl AsUrlPath for EnableRuleRequest {
+impl AsUrl for EnableRuleRequest {
     fn as_url_path(self) -> String {
         let Self { domain_id, rule_id } = self;
         format!("/api/v2/domains/{domain_id}/rules/{rule_id}?action=enable")
@@ -103,7 +103,7 @@ pub struct DisableRuleRequest {
     rule_id: String,
 }
 
-impl AsUrlPath for DisableRuleRequest {
+impl AsUrl for DisableRuleRequest {
     fn as_url_path(self) -> String {
         let Self { domain_id, rule_id } = self;
         format!("/api/v2/domains/{domain_id}/rules/{rule_id}?action=disable")
@@ -115,7 +115,7 @@ pub struct ListRulesRequest {
     domain_id: String,
 }
 
-impl AsUrlPath for ListRulesRequest {
+impl AsUrl for ListRulesRequest {
     fn as_url_path(self) -> String {
         let Self { domain_id } = self;
         format!("/api/v2/domains/{domain_id}/rules/")
@@ -128,7 +128,7 @@ pub struct RuleRequest {
     rule_id: String,
 }
 
-impl AsUrlPath for RuleRequest {
+impl AsUrl for RuleRequest {
     fn as_url_path(self) -> String {
         let Self { domain_id, rule_id } = self;
         format!(
@@ -143,7 +143,7 @@ pub struct ListRulesResponse {
 }
 
 #[async_trait]
-pub trait RulesApi {
+pub trait ApiRuleEndpoints {
     async fn create_rule(
         &self,
         request: CreateRuleRequest,
@@ -172,7 +172,7 @@ pub trait RulesApi {
 }
 
 #[async_trait]
-impl RulesApi for MailinatorClient {
+impl ApiRuleEndpoints for Mailinator {
     async fn create_rule(
         &self,
         request: CreateRuleRequest,

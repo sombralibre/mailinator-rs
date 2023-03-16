@@ -2,7 +2,7 @@ use dotenv_config::EnvConfig;
 use dotenvy::dotenv;
 
 #[derive(Debug, EnvConfig, Clone)]
-pub(crate) struct MailinatorConfig {
+pub struct EnvCfg {
     #[env_config(
         name = "MAILINATOR_API_URL",
         default = "https://mailinator.com"
@@ -12,9 +12,9 @@ pub(crate) struct MailinatorConfig {
     pub(crate) api_token: Option<String>,
 }
 
-impl MailinatorConfig {
+impl EnvCfg {
     pub fn new() -> Self {
         dotenv().ok();
-        MailinatorConfig::init().unwrap()
+        Self::init().unwrap()
     }
 }

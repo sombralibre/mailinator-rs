@@ -1,3 +1,9 @@
+#![warn(
+    clippy::all,
+    clippy::pedantic,
+    clippy::nursery,
+    clippy::cargo
+)]
 #[macro_use]
 extern crate derive_builder;
 
@@ -10,45 +16,46 @@ pub mod prelude {
     pub use super::{
         api::{
             domains::{
-                Domain, DomainRequestBuilder,
-                DomainResponse, DomainsApi,
+                ApiDomainEndpoints, Domain,
+                DomainRequestBuilder, DomainResponse,
             },
             message::{
                 attachment::{
-                    Attachment, AttachmentLookupField,
+                    Attachment,
                     FetchAttachmentRequestBuilder,
                     FetchListOfAttachmentRequestBuilder,
                     FetchListOfAttachmentResponse,
+                    LookupField,
                 },
                 inbox::{
                     FetchInboxRequestBuilder,
                     FetchInboxRequestQueryParamsBuilder,
-                    FetchInboxResponse, Msg, Sorting
+                    FetchInboxResponse, Msg, Sorting,
                 },
                 link::{
                     FetchLinkRequestBuilder,
                     FetchLinkResponse,
                 },
+                ApiMessageEndpoints,
                 DeleteAllDomainMessageRequestBuilder,
                 DeleteAllInboxMessageRequestBuilder,
                 DeleteMessageRequestBuilder,
-                DeleteMessageResponse, EmailMessage,
+                DeleteMessageResponse, Email,
                 FetchMessageRequestBuilder,
                 FetchSmsMessageRequestBuilder,
                 InjectMessageRequestBuilder,
-                InjectMessageResponse, MessageApi,
-                NewEmailMessage, NewEmailMessageBuilder,
-                Part, PartBuilder,
+                InjectMessageResponse, NewEmail,
+                NewEmailBuilder, Part, PartBuilder,
             },
             rules::{
-                CreateRuleRequestBuilder,
+                ApiRuleEndpoints, CreateRuleRequestBuilder,
                 ListRulesRequestBuilder, ListRulesResponse,
-                RuleBuilder, RuleRequestBuilder, RulesApi,
+                RuleBuilder, RuleRequestBuilder,
                 WebhookActionBuilder,
             },
             stats::*,
             ResponseStatus,
         },
-        client::MailinatorClient,
+        client::Mailinator,
     };
 }

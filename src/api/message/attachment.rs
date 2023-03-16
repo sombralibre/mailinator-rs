@@ -1,4 +1,4 @@
-use crate::path::AsUrlPath;
+use crate::path::AsUrl;
 use serde::Deserialize;
 
 #[derive(Debug, Builder, Default)]
@@ -8,7 +8,7 @@ pub struct FetchListOfAttachmentRequest {
     message_id: String,
 }
 
-impl AsUrlPath for FetchListOfAttachmentRequest {
+impl AsUrl for FetchListOfAttachmentRequest {
     fn as_url_path(self) -> String {
         let Self {
             domain,
@@ -38,12 +38,12 @@ pub struct FetchListOfAttachmentResponse {
 }
 
 #[derive(Debug, Clone)]
-pub enum AttachmentLookupField {
+pub enum LookupField {
     Id(u64),
     Name(String),
 }
 
-impl Default for AttachmentLookupField {
+impl Default for LookupField {
     fn default() -> Self {
         Self::Id(0)
     }
@@ -54,10 +54,10 @@ pub struct FetchAttachmentRequest {
     domain: String,
     inbox: String,
     message_id: String,
-    attachment: AttachmentLookupField,
+    attachment: LookupField,
 }
 
-impl AsUrlPath for FetchAttachmentRequest {
+impl AsUrl for FetchAttachmentRequest {
     fn as_url_path(self) -> String {
         let Self {
             domain,
@@ -66,8 +66,8 @@ impl AsUrlPath for FetchAttachmentRequest {
             attachment,
         } = self;
         match attachment {
-            AttachmentLookupField::Id(id) => format!("/api/v2/domains/{domain}/inboxes/{inbox}/messages/{message_id}/attachments/{id}"),
-            AttachmentLookupField::Name(name) => format!("/api/v2/domains/{domain}/inboxes/{inbox}/messages/{message_id}/attachments/{name}")
+            LookupField::Id(id) => format!("/api/v2/domains/{domain}/inboxes/{inbox}/messages/{message_id}/attachments/{id}"),
+            LookupField::Name(name) => format!("/api/v2/domains/{domain}/inboxes/{inbox}/messages/{message_id}/attachments/{name}")
         }
     }
 }

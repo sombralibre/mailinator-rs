@@ -1,4 +1,4 @@
-use crate::path::AsUrlPath;
+use crate::path::AsUrl;
 use serde::Deserialize;
 
 #[derive(Debug, Builder, Default)]
@@ -8,7 +8,7 @@ pub struct FetchLinkRequest {
     message_id: String,
 }
 
-impl AsUrlPath for FetchLinkRequest {
+impl AsUrl for FetchLinkRequest {
     fn as_url_path(self) -> String {
         let Self {
             domain,

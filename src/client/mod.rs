@@ -1,4 +1,4 @@
-use crate::config::MailinatorConfig;
+use crate::config::EnvCfg;
 use eyre::Report;
 use futures::TryFutureExt;
 use reqwest::{
@@ -8,41 +8,41 @@ use reqwest::{
 use serde::{de::DeserializeOwned, Serialize};
 
 #[derive(Debug, Clone)]
-pub struct MailinatorClient {
-    _client: Client,
-    _headers: HeaderMap,
-    _api_url: String,
+pub struct Mailinator {
+    client: Client,
+    headers: HeaderMap,
+    api_url: String,
 }
 
-impl MailinatorClient {
+impl Mailinator {
+    #[must_use]
     pub fn new(
-        _api_url: Option<String>,
-        _api_token: Option<String>,
+        apiurl: Option<String>,
+        apitoken: Option<String>,
     ) -> Self {
-        let mut _headers = HeaderMap::new();
-        let MailinatorConfig { api_url, api_token } =
-            MailinatorConfig::new();
+        let mut headers = HeaderMap::new();
+        let EnvCfg { api_url, api_token } = EnvCfg::new();
 
-        let _api_url = _api_url.unwrap_or(api_url);
+        let new_api_url = apiurl.unwrap_or(api_url);
 
-        _headers.insert(
+        headers.insert(
             "Authorization",
             HeaderValue::try_from(
-                _api_token.or(api_token).expect(
+                apitoken.or(api_token).expect(
                     "No valid api token were provided",
                 ),
             )
             .expect("Cannot build authorization"),
         );
 
-        let _client = Client::builder()
+        let client = Client::builder()
             .build()
             .expect("Failed to build http client");
 
         Self {
-            _client,
-            _headers,
-            _api_url,
+            client,
+            headers,
+            api_url: new_api_url,
         }
     }
 
@@ -78,8 +78,7 @@ impl MailinatorClient {
         data: Data,
     ) -> Result<T, Report>
     where
-        Data: Serialize + Sync + Send,
-        Data: Into<Body>,
+        Data: Serialize + Sync + Send + Into<Body>,
         T: DeserializeOwned + Sync + Send,
     {
         HttpRequest::post(self, path, data)
@@ -122,84 +121,83 @@ struct HttpRequest;
 
 impl HttpRequest {
     async fn get(
-        inner: &MailinatorClient,
+        inner: &Mailinator,
         path: String,
     ) -> Result<RequestBuilder, Report> {
-        let MailinatorClient {
-            _client,
-            _headers,
-            _api_url,
+        let Mailinator {
+            client,
+            headers,
+            api_url,
         } = inner;
-        Ok(_client
-            .get(format!("{_api_url}{path}"))
-            .headers(_headers.to_owned()))
+        Ok(client
+            .get(format!("{api_url}{path}"))
+            .headers(headers.clone()))
     }
 
     async fn put(
-        inner: &MailinatorClient,
+        inner: &Mailinator,
         path: String,
     ) -> Result<RequestBuilder, Report> {
-        let MailinatorClient {
-            _client,
-            _headers,
-            _api_url,
+        let Mailinator {
+            client,
+            headers,
+            api_url,
         } = inner;
-        Ok(_client
-            .put(format!("{_api_url}{path}"))
-            .headers(_headers.to_owned()))
+        Ok(client
+            .put(format!("{api_url}{path}"))
+            .headers(headers.clone()))
     }
 
     async fn post<Data>(
-        inner: &MailinatorClient,
+        inner: &Mailinator,
         path: String,
         data: Data,
     ) -> Result<RequestBuilder, Report>
     where
-        Data: Serialize + Sync + Send,
-        Data: Into<Body>,
+        Data: Serialize + Sync + Send + Into<Body>,
     {
-        let MailinatorClient {
-            _client,
-            _headers,
-            _api_url,
+        let Mailinator {
+            client,
+            headers,
+            api_url,
         } = inner;
-        Ok(_client
-            .post(format!("{_api_url}{path}"))
+        Ok(client
+            .post(format!("{api_url}{path}"))
             .body(data)
-            .headers(_headers.to_owned()))
+            .headers(headers.clone()))
     }
 
     async fn post_json<Jdata>(
-        inner: &MailinatorClient,
+        inner: &Mailinator,
         path: String,
         jdata: Jdata,
     ) -> Result<RequestBuilder, Report>
     where
         Jdata: Serialize + Sync + Send,
     {
-        let MailinatorClient {
-            _client,
-            _headers,
-            _api_url,
+        let Mailinator {
+            client,
+            headers,
+            api_url,
         } = inner;
-        Ok(_client
-            .post(format!("{_api_url}{path}"))
+        Ok(client
+            .post(format!("{api_url}{path}"))
             .json(&jdata)
-            .headers(_headers.to_owned()))
+            .headers(headers.clone()))
     }
 
     async fn delete(
-        inner: &MailinatorClient,
+        inner: &Mailinator,
         path: String,
     ) -> Result<RequestBuilder, Report> {
-        let MailinatorClient {
-            _client,
-            _headers,
-            _api_url,
+        let Mailinator {
+            client,
+            headers,
+            api_url,
         } = inner;
-        Ok(_client
-            .delete(format!("{_api_url}{path}"))
-            .headers(_headers.to_owned()))
+        Ok(client
+            .delete(format!("{api_url}{path}"))
+            .headers(headers.clone()))
     }
 
     async fn send(
